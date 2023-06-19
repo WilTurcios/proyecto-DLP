@@ -23,8 +23,6 @@ const string colorVerde = "\033[1;32m";
 const string colorAzul = "\033[1;34m";
 const string colorReset = "\033[0m";
 
-cout << colorRojo << "Este es un mensaje de prueba" << colorReset;
-
 /* COLORES */
 
 /* UTILIDADES */
@@ -68,6 +66,10 @@ string obtenerFecha() {
     return fecha;
 }
 
+int autoIncrement() {
+    static int value = 1;
+    return value++;
+}
 /* UTILIDADES */
 
 /* ESTRUCTURAS DE DATOS, VARIABLES Y VECTORES */
@@ -99,6 +101,7 @@ vector<Producto> BebidasFrias =
     {"Té helado", 2.00, "Té negro o verde frío endulzado"},
     {"Batidos de frutas", 4.35, "Mezcla de frutas frescas con leche o yogur."}
 };
+
 vector<Producto> BebidasCalientes =
 {
     {"Espresso", 2.35, "Un café fuerte y concentrado servido en una taza pequeña."},
@@ -308,7 +311,8 @@ void mostrarListaProductos(string tituloCategoria, vector<Producto> listaProduct
 // Imprime una factura generada con los productos que el cliente ha seleccionado
 void mostrarFactura(
     string nombreCliente, 
-    int numeroMesa, int numeroFactura,
+    int numeroMesa, 
+    int numeroFactura,
     double total,
     string fecha,
     vector<Producto> listaProductos,
@@ -352,7 +356,8 @@ void mostrarFactura(
 
 // Recolecta los datos necesario de una orden realizada por un cliente y luego se los pasa a la función mostrarFactura para generar una factura para el usuario
 void nuevaOrden() {
-    int numeroMesa, tipoProducto, numeroProducto, numeroFactura = 1;
+    int numeroMesa, tipoProducto, numeroProducto;
+    int numeroFactura = autoIncrement();
     bool mismoCliente = false;
     char agregarOtro = 'N';
     double total = 0.0;
@@ -419,7 +424,6 @@ AgregarOtroProducto:
             mostrarFactura(nombreCliente, numeroMesa, numeroFactura, total, fecha, Pedido, Cantidades);
             total = 0.0;
             cantidadProducto = 0;
-            numeroFactura++;
         }
 
         break;
@@ -465,7 +469,6 @@ AgregarOtroProducto:
             mostrarFactura(nombreCliente, numeroFactura, numeroMesa, total, fecha, Pedido, Cantidades);
             total = 0.0;
             cantidadProducto = 1;
-            numeroFactura++;
         }
 
         break;
@@ -506,7 +509,6 @@ AgregarOtroProducto:
         else {
             fecha = obtenerFecha();
             Facturas.push_back({ nombreCliente, numeroMesa, numeroFactura, total, fecha, Pedido, Cantidades});
-            numeroFactura++;
             mostrarFactura(nombreCliente, numeroMesa, numeroFactura, total, fecha, Pedido, Cantidades);
             total = 0.0;
             cantidadProducto = 0;
@@ -557,7 +559,6 @@ AgregarOtroProducto:
 
             total = 0.0;
             cantidadProducto = 0;
-            numeroFactura++;
         }
 
         break;
@@ -604,7 +605,6 @@ AgregarOtroProducto:
 
             total = 0.0;
             cantidadProducto = 0;
-            numeroFactura++;
         }
 
         break;
@@ -651,7 +651,6 @@ AgregarOtroProducto:
 
             total = 0.0;
             cantidadProducto = 0;
-            numeroFactura++;
         }
 
         break;
@@ -697,7 +696,6 @@ AgregarOtroProducto:
             mostrarFactura(nombreCliente, numeroMesa, numeroFactura, total, fecha, Pedido, Cantidades);
             total = 0.0;
             cantidadProducto = 0;
-            numeroFactura++;
         }
 
         break;
