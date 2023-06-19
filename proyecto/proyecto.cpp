@@ -164,47 +164,30 @@ vector<Factura> Facturas;
 /* FUNCTIONES */
 
 // Muestra el banner del negocio
-void mostrarBanner() {
+void centrarTexto(string color, string texto) {
+    const int anchoConsola = obtenerAnchoConsola();
 
+
+    int cantidadEspacios = (anchoConsola - texto.length() - 2) / 2;
+    string whiteSpace = repeatText(" ", cantidadEspacios);
+
+    cout << whiteSpace << color << texto << colorReset << whiteSpace << "\n\n";
+}
+
+void mostrarBanner() {
     const int anchoConsola = obtenerAnchoConsola();
     string dashString = repeatText("-", anchoConsola);
-
-    // Primera linea de texto
-    const string texto1 = "Bienvenidos a";
-    int cantidadEspacios1 = (anchoConsola - texto1.length() - 2) / 2;
-    string whiteSpace1 = repeatText(" ", cantidadEspacios1);
-
-    // Segunda linea de texto
-    const string texto2 = "LA FARINA RESTAURANT";
-    int cantidadEspacios2 = (anchoConsola - texto2.length() - 2) / 2;
-    string whiteSpace2 = repeatText(" ", cantidadEspacios2);
-
-    // Tecera linea de texto
-    const string texto3 = "Somos un restaurante de comida italiana especializado en pastas.";
-    int cantidadEspacios3 = (anchoConsola - texto3.length() - 2) / 2;
-    string whiteSpace3 = repeatText(" ", cantidadEspacios3);
-
-    // cuarta linea de texto
-    const string texto4 = "Pero no encontrarás únicamente pastas, sino una gran variedad de platillos deliciosos";
-    int cantidadEspacios4 = (anchoConsola - texto4.length() - 2) / 2;
-    string whiteSpace4 = repeatText(" ", cantidadEspacios4);
-
-    // quinta linea de texto
-    const string texto5 = "para disfrutar con amigos y familia.";
-    int cantidadEspacios5 = (anchoConsola - texto5.length() - 2) / 2;
-    string whiteSpace5 = repeatText(" ", cantidadEspacios5);
-
 
     // Imprimir el texto en letras grandes con colores
     cout << colorVerde << dashString << colorReset << "\n\n";
     
     cout << "\n\n";
 
-    cout << whiteSpace1 << colorVerde << texto1 << colorReset << whiteSpace1  << "\n\n";
-    cout << whiteSpace2 << colorBlanco << texto2 << colorReset << whiteSpace2 << "\n\n";
-    cout << whiteSpace3<< colorBlanco << texto3 << colorReset << whiteSpace3 << "\n\n";
-    cout << whiteSpace4 << colorRojo << texto4 << colorReset << whiteSpace4 << "\n\n";
-    cout << whiteSpace5 << colorRojo << texto5 << colorReset << whiteSpace5 << "\n\n";
+    centrarTexto(colorVerde, "Bienvenidos a");
+    centrarTexto(colorBlanco, "LA FARINA RESTAURANT");
+    centrarTexto(colorBlanco, "Somos un restaurante de comida italiana especializado en pastas.");
+    centrarTexto(colorRojo, "Pero no encontrarás únicamente pastas, sino una gran variedad de platillos deliciosos");
+    centrarTexto(colorRojo, "para disfrutar con amigos y familia.");
 
 
     cout << "\n\n";
