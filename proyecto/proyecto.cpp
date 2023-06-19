@@ -8,6 +8,7 @@
 #include <iomanip>
 
 #define _CRT_SECURE_NO_WARNINGS
+
 #pragma warning(supress : 4996)
 #pragma warning(disable : 4996)
 
@@ -22,6 +23,8 @@ const string colorVerde = "\033[1;32m";
 const string colorAzul = "\033[1;34m";
 const string colorReset = "\033[0m";
 
+cout << colorRojo << "Este es un mensaje de prueba" << colorReset;
+
 /* COLORES */
 
 /* UTILIDADES */
@@ -31,12 +34,6 @@ int obtenerAnchoConsola() {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
     return csbi.srWindow.Right - csbi.srWindow.Left + 1;
-}
-
-int obtenerAltoConsola() {
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-    return csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 }
 
 // Repite el texto las veces que se indique
@@ -226,7 +223,6 @@ int mostrarOpciones() {
     return opcion;
 }
 
-
 // Agrega un producto a su vector correspondiente
 void agregarProducto(int tipoProducto) {
     string nombre;
@@ -273,12 +269,12 @@ void agregarProducto(int tipoProducto) {
 void agregarProductos() {
     int tipoProducto;
 
-    cout << "¿Qué tipo de platillo desea agregar?" << endl;
-    cout << "1. Entrante." << endl;
-    cout << "2. Comida Principal." << endl;
+    cout << "¿Qué tipo de platillo desea agregar? (Escriba el número de lista correspondiente)." << endl;
+    cout << "1. Entrantes." << endl;
+    cout << "2. Comidas Principales." << endl;
     cout << "3. Pastas." << endl;
     cout << "4. Pizzas." << endl;
-    cout << "5. Bebidas Frias." << endl;
+    cout << "5. Bebidas Frías." << endl;
     cout << "6. Bebidas Calientes." << endl;
     cout << "7. Bebidas Alcohólicas." << endl;
     cin >> tipoProducto;
@@ -298,76 +294,23 @@ void mostrarProductos(vector<Producto> Productos, string dashString) {
     }
 }
 
-// Ejectura la funcion mostrarProductos dentro de si, le pasa el vector de productos correspondiente y agrega los titulos de cada sección correspondiente
-void mostrarMenu() {
-
+void mostrarListaProductos(string tituloCategoria, vector<Producto> listaProductos) {
     int anchoConsola = obtenerAnchoConsola();
     string dashString = repeatText("-", anchoConsola);
 
-    // Primesa linea de texto
-    const string texto1 = " Entrantes ";
-    int cantidadEspacios1 = ((anchoConsola - texto1.length() - 4) / 2);
+    int cantidadEspacios1 = ((anchoConsola - tituloCategoria.length() - 4) / 2);
     string whiteSpace1 = repeatText("*", cantidadEspacios1);
 
-    // Segunda linea de texto
-    const string texto2 = " Platillos principales ";
-    int cantidadEspacios2 = ((anchoConsola - texto2.length() - 4) / 2);
-    string whiteSpace2 = repeatText("*", cantidadEspacios2);
-
-    // Tecera linea de texto
-    const string texto3 = " Pastas ";
-    int cantidadEspacios3 = ((anchoConsola - texto3.length() - 4) / 2);
-    string whiteSpace3 = repeatText("*", cantidadEspacios3);
-
-    // Tecera linea de texto
-    const string texto7 = " Pizzas ";
-    int cantidadEspacios7 = ((anchoConsola - texto7.length() - 4) / 2);
-    string whiteSpace7 = repeatText("*", cantidadEspacios7);
-
-    // cuarta linea de texto
-    const string texto4 = " Bebidas Alcohólicas ";
-    int cantidadEspacios4 = ((anchoConsola - texto4.length() - 4) / 2);
-    string whiteSpace4 = repeatText("*", cantidadEspacios4);
-
-    // quinta linea de texto
-    const string texto5 = " Bebidas Frías "; 
-    int cantidadEspacios5 = ((anchoConsola - texto5.length() - 4) / 2);
-    string whiteSpace5 = repeatText("*", cantidadEspacios5);
-
-    // sexta linea de texto
-    const string texto6 = " Bebidas Calientes ";
-    int cantidadEspacios6 = ((anchoConsola - texto6.length() - 4) / 2);
-    string whiteSpace6 = repeatText("*", cantidadEspacios6);
-    
-    cout << "| " << whiteSpace1 << colorRojo << texto1 << colorReset << whiteSpace1 << " |" << "\n\n";
-    mostrarProductos(Entrantes, dashString);
-
-    cout << "| " << whiteSpace2 << colorRojo << texto2 << colorReset << whiteSpace2 << " |" << "\n\n";
-    mostrarProductos(ComidasPrincipales, dashString);
-
-    cout << "| " << whiteSpace3 << colorRojo << texto3 << colorReset << whiteSpace3 << " |" << "\n\n";
-    mostrarProductos(Pastas, dashString);
-
-    cout << "| " << whiteSpace7 << colorRojo << texto7 << colorReset << whiteSpace7 << " |" << "\n\n";
-    mostrarProductos(Pizzas, dashString);
-
-    cout << "| " << whiteSpace4 << colorRojo << texto4 << colorReset << whiteSpace4 << " |" << "\n\n";
-    mostrarProductos(BebidasAlcoholicas, dashString);
-
-    cout << "| " << whiteSpace5 << colorRojo << texto5 << colorReset << whiteSpace5 << " |" << "\n\n";
-    mostrarProductos(BebidasFrias, dashString);
-
-    cout << "| " << whiteSpace6 << colorRojo << texto6 << colorReset << whiteSpace6 << " |" << "\n\n";
-    mostrarProductos(BebidasCalientes, dashString);
+    cout << "| " << whiteSpace1 << colorRojo << tituloCategoria << colorReset << whiteSpace1 << " |" << "\n\n";
+    mostrarProductos(listaProductos, dashString);
 }
-
 
 // Imprime una factura generada con los productos que el cliente ha seleccionado
 void mostrarFactura(
     string nombreCliente, 
-    int numeroMesa, int numeroFactura, 
+    int numeroMesa, int numeroFactura,
     double total,
-    string fecha, 
+    string fecha,
     vector<Producto> listaProductos,
     vector<int> Cantidades
 ) {
@@ -420,7 +363,9 @@ void nuevaOrden() {
     Producto producto;
     string fecha;
 
-    AgregarOtroProducto:
+AgregarOtroProducto:
+
+    mostrarBanner();
     
     cout << "¿Que platillo o bebida deseas comprar? (Escribe el número de lista correspondiente) \n";
     cout << "1. Entrantes \n";
@@ -435,7 +380,7 @@ void nuevaOrden() {
     switch (tipoProducto)
     {
     case 1:
-
+        mostrarListaProductos(" Entrantes ", Entrantes);
         if (mismoCliente) {
             cout << "Ingresa el número del producto que deseas comprar: ";
             cin >> numeroProducto;
@@ -443,7 +388,7 @@ void nuevaOrden() {
             cin >> cantidadProducto;
         }
         else {
-            cout << "Ingresa el nombre del cliente:";
+            cout << "Ingresa el nombre del cliente: ";
             cin.ignore();
             getline(cin, nombreCliente);
             cout << "Ingresa el numero de mesa: ";
@@ -465,6 +410,7 @@ void nuevaOrden() {
         if (agregarOtro == 's' || agregarOtro == 'S') {
             mismoCliente = true;
             cantidadProducto = 0;
+            system("cls");
             goto AgregarOtroProducto;
         }
         else {
@@ -478,6 +424,8 @@ void nuevaOrden() {
 
         break;
     case 2:
+        mostrarListaProductos(" Platillos Principales ", ComidasPrincipales);
+
         if (mismoCliente) {
             cout << "Ingresa el número del producto que deseas comprar: ";
             cin >> numeroProducto;
@@ -485,7 +433,7 @@ void nuevaOrden() {
             cin >> cantidadProducto;
         }
         else {
-            cout << "Ingresa el nombre del cliente:";
+            cout << "Ingresa el nombre del cliente: ";
             cin.ignore();
             getline(cin, nombreCliente);
             cout << "Ingresa el numero de mesa: ";
@@ -508,6 +456,7 @@ void nuevaOrden() {
         if (agregarOtro == 's' || agregarOtro == 'S') {
             mismoCliente = true;
             cantidadProducto = 0;
+            system("cls");
             goto AgregarOtroProducto;
         }
         else {
@@ -521,6 +470,7 @@ void nuevaOrden() {
 
         break;
     case 3:
+        mostrarListaProductos(" Pastas ", Pastas);
         if (mismoCliente) {
             cout << "Ingresa el número del platillo que deseas comprar: ";
             cin >> numeroProducto;
@@ -528,7 +478,7 @@ void nuevaOrden() {
             cin >> cantidadProducto;
         }
         else {
-            cout << "Ingresa el nombre del cliente:";
+            cout << "Ingresa el nombre del cliente: ";
             cin.ignore();
             getline(cin, nombreCliente);
             cout << "Ingresa el numero de mesa: ";
@@ -550,6 +500,7 @@ void nuevaOrden() {
         if (agregarOtro == 's' || agregarOtro == 'S') {
             mismoCliente = true;
             cantidadProducto = 0;
+            system("cls");
             goto AgregarOtroProducto;
         }
         else {
@@ -563,6 +514,8 @@ void nuevaOrden() {
 
         break;
     case 4:
+        mostrarListaProductos(" Pizzas ", Pizzas);
+
         if (mismoCliente) {
             cout << "Ingresa el número de la pizza que deseas comprar: ";
             cin >> numeroProducto;
@@ -570,7 +523,7 @@ void nuevaOrden() {
             cin >> cantidadProducto;
         }
         else {
-            cout << "Ingresa el nombre del cliente:";
+            cout << "Ingresa el nombre del cliente: ";
             cin.ignore();
             getline(cin, nombreCliente);
             cout << "Ingresa el numero de mesa: ";
@@ -592,6 +545,7 @@ void nuevaOrden() {
         if (agregarOtro == 's' || agregarOtro == 'S') {
             mismoCliente = true;
             cantidadProducto = 0;
+            system("cls");
             goto AgregarOtroProducto;
         }
         else {
@@ -608,6 +562,8 @@ void nuevaOrden() {
 
         break;
     case 5:
+        mostrarListaProductos(" Bebidas Frías ", BebidasFrias);
+
         if (mismoCliente) {
             cout << "Ingresa el número de la bebida fría que deseas comprar: ";
             cin >> numeroProducto;
@@ -615,7 +571,7 @@ void nuevaOrden() {
             cin >> cantidadProducto;
         }
         else {
-            cout << "Ingresa el nombre del cliente:";
+            cout << "Ingresa el nombre del cliente: ";
             cin.ignore();
             getline(cin, nombreCliente);
             cout << "Ingresa el numero de mesa: ";
@@ -637,6 +593,7 @@ void nuevaOrden() {
         if (agregarOtro == 's' || agregarOtro == 'S') {
             mismoCliente = true;
             cantidadProducto = 0;
+            system("cls");
             goto AgregarOtroProducto;
         }
         else {
@@ -652,6 +609,8 @@ void nuevaOrden() {
 
         break;
     case 6:
+        mostrarListaProductos(" Bebidas Calientes ", BebidasCalientes);
+
         if (mismoCliente) {
             cout << "Ingresa el número de la bebida caliente que deseas comprar: ";
             cin >> numeroProducto;
@@ -659,7 +618,7 @@ void nuevaOrden() {
             cin >> cantidadProducto;
         }
         else {
-            cout << "Ingresa el nombre del cliente:";
+            cout << "Ingresa el nombre del cliente: ";
             cin.ignore();
             getline(cin, nombreCliente);
             cout << "Ingresa el numero de mesa: ";
@@ -681,6 +640,7 @@ void nuevaOrden() {
         if (agregarOtro == 's' || agregarOtro == 'S') {
             mismoCliente = true;
             cantidadProducto = 0;
+            system("cls");
             goto AgregarOtroProducto;
         }
         else {
@@ -696,6 +656,8 @@ void nuevaOrden() {
 
         break;
     case 7:
+        mostrarListaProductos(" Bebidas Alcohólicas ", BebidasAlcoholicas);
+
         if (mismoCliente) {
             cout << "Ingresa el número de la bebida alcohólica que deseas comprar: ";
             cin >> numeroProducto;
@@ -703,7 +665,7 @@ void nuevaOrden() {
             cin >> cantidadProducto;
         }
         else {
-            cout << "Ingresa el nombre del cliente:";
+            cout << "Ingresa el nombre del cliente: ";
             cin.ignore();
             getline(cin, nombreCliente);
             cout << "Ingresa el numero de mesa: ";
@@ -725,6 +687,7 @@ void nuevaOrden() {
         if (agregarOtro == 's' || agregarOtro == 'S') {
             mismoCliente = true;
             cantidadProducto = 0;
+            system("cls");
             goto AgregarOtroProducto;
         }
         else {
@@ -753,9 +716,8 @@ int main() {
     locale::global(locale("")); //Esta linea de código permite que todo lo que se muestra en consola esté en formato UTF-8
 
 realizarOtraAccion:
-    // Muestra el banner y el menú
+    // Muestra el banner
     mostrarBanner();
-    mostrarMenu();
 
     // Muestra las acciones que se pueden realizar y guarda la seleccionada en una variables
     int opcion = mostrarOpciones();
